@@ -38,14 +38,19 @@ if(isset($_REQUEST['staff_code'])){
           $staffname = $result['user_fname'] . " " . $result['user_lname'];
           $_SESSION['prev'] = $result['user_priviledge'];
 
-          $statement = $conn->prepare('INSERT INTO activity_log (user_staffcode, user_name, activity, date_time) VALUES (:stfcd, :usrnm, :actvty, :dt)');
-          $statement->execute([
-            'stfcd' => $staffCode,
-            'usrnm' => $staffname,
-            'actvty' => "Logged in using the IP " ,
-            'dt' => $datetime
-          ]);
-          echo 'login';
+          // $sql = "INSERT INTO activity_log (user_staffcode, user_name, activity, date_time) VALUES (:stfcd, :stfcnm, :activity, :dt)";
+          // $sth = $conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+          // $sth->execute(array(
+          //   ':stfcd' => $staffCode,
+          //   ':stfcnm' => $staffname,
+          //   ':activity' => "Logged in using this IP ",
+          //   ':dt' => $datetime
+          //
+          // ));
+
+
+          echo "login";
+
         }else{
           echo "Invalid Access";
         }

@@ -106,6 +106,7 @@ $('#login_btn').click(function(e){
     url       :  "actions/login.php",
     data      :  {staff_code:staff_code, staff_user_type:staff_user_type, staff_password:staff_password},
     success   :  function(result){
+
       if(result == "login"){
         // e.preventDefault();
         // alert("Login Successful");
@@ -123,7 +124,7 @@ $('#login_btn').click(function(e){
         alert("Account Doesnt Exist");
         window.location = "./";
       }else{
-        alert("Error Please Try Again");
+        alert(result);
         window.location = "./";
       }
 

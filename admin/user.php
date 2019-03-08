@@ -38,7 +38,7 @@
         <div class="row">
           <div class="col-md-4">
             <div class="card">
-              <form id="form1" method="POST" action="">
+              <form id="form1" method="POST" action="actions/users/add.php">
                 <div class="card-header">
                   <h5 class="title">Add User</h5>
                 </div>
@@ -48,7 +48,7 @@
                     <div class="col-md-12 px-md-2">
                       <div class="form-group">
                         <label>Staff Code</label>
-                        <input type="text" class="form-control" placeholder="Staff Code" REQUIRED  name="staffcode">
+                        <input type="text" id="employee_code" class="form-control" autocomplete="off" placeholder="Staff Code" name="employee_code" REQUIRED>
                         <!-- onkeypress="return restrictCharacters(this, event, digitsOnly);" -->
                       </div>
                     </div>
@@ -57,7 +57,7 @@
                     <div class="col-md-12 px-md-2">
                       <div class="form-group">
                         <label>First Name</label>
-                        <input type="text" class="form-control" placeholder="First Name" REQUIRED name="firstname">
+                        <input type="text" id="firstname" class="form-control" autocomplete="off" placeholder="First Name" name="firstname" REQUIRED>
                       </div>
                     </div>
                   </div>
@@ -65,7 +65,7 @@
                     <div class="col-md-12 px-md-2">
                       <div class="form-group">
                         <label>Last Name</label>
-                        <input type="text" class="form-control" placeholder="Last Name" REQUIRED name="lastname">
+                        <input type="text" id="lastname" class="form-control" autocomplete="off" placeholder="Last Name" name="lastname" REQUIRED>
                       </div>
                     </div>
                   </div>
@@ -73,18 +73,34 @@
                     <div class="col-md-12 px-md-2">
                       <div class="form-group">
                         <label>Priviledge</label>
-                        <select id="accesstype" class="form-control" name="priviledge">
-                          <option value="" selected disabled>---- SELECT ACCESS TYPE ----</option>
+                        <select id="accesstype" name="accesstype" class="form-control">
+                          <option value="" selected disabled></option>
                           <option value="Admin" style="color:black;">Administrator</option>
                           <option value="viewer" style="color:black;">Viewer</option>
                         </select>
                       </div>
                     </div>
                   </div>
+                  <div class="row">
+                    <div class="col-md-12 px-md-2">
+                      <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="password" class="form-control" name="password" placeholder="Password" REQUIRED>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12 px-md-2">
+                      <div class="form-group">
+                        <label>Re-Type Password</label>
+                        <input type="password" id="repassword" class="form-control" name="repassword" placeholder="Password" REQUIRED>
+                      </div>
+                    </div>
+                  </div>
 
                 </div>
                 <div class="card-footer">
-                  <button type="submit" class="btn btn-fill btn-primary">Add</button>
+                  <button type="submit"  class="btn btn-fill btn-primary">Add</button>
                 </div>
               </form>
             </div>
@@ -110,19 +126,31 @@
                     $sql = "SELECT * FROM accounts";
                     $sth = $conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
                     $sth->execute();
+                    $i = 0;
                     while($result = $sth->fetch(PDO::FETCH_ASSOC)){
 
 
                       ?>
                       <tr>
                         <td><?php echo $result['user_staffcode']; ?></td>
-                        <td><?php echo $result['user_fname'] . $result['user_lname']; ?></td>
+                        <td><?php echo $result['user_fname'] ." ". $result['user_lname']; ?></td>
                         <td><?php echo $result['user_priviledge']; ?></td>
                         <td><?php echo $result['user_status']; ?></td>
-                        <td>BUTTONS</td>
+                        <td>
+                          <?php if($result['user_status'] != "Active"){ ?>
+                          <button class="btn btn-fill btn-primary" data-toggle="modal" data-target="#modalactivate<?php echo $i;?>"><span class="tim-icons icon-check-2"></span></button>
+                        <?php }else{ ?>
+                            <button class="btn btn-fill btn-primary" data-toggle="modal" data-target="#modaldeactivate<?php echo $i;?>"><span class="tim-icons icon-simple-remove"></span></button>
+                        <?php } ?>
+                          <a class="btn btn-fill btn-primary" href="user-edit?staffcode=<?php echo $result['user_staffcode'];?>"><span class="tim-icons icon-badge"></span></a>
+
+                          <button class="btn btn-fill btn-primary" data-toggle="modal" data-target="#modaldelete<?php echo $i;?>"><span class="tim-icons icon-trash-simple"></span></button>
+
+
+                        </td>
                       </tr>
                       <?php
-                    }
+                     include("actions/users/modals.php"); $i++;}
                     ?>
 
                   </tbody>
@@ -189,6 +217,45 @@
   function submitFormFunction(event) {
     event.preventDefault();
     $("form#form1").submit();
+
+//   function create_function(){
+//   var employee_code = $('#employee_code').val();
+//   var firstname = $('#firstname').val();
+//   var lastname = $('#lastname').val();
+//   var accesstype = $('#accesstype').val();
+//   var password = $('#password').val();
+//   var repassword = $('#repassword').val();
+//   if(message){
+//     if(document.getElementById("employee_code").value == ""){
+//       alert("Please fill up the following fields");
+//     }else if(document.getElementById("firstname").value == ""){
+//       alert("Please fill up the following fields");
+//     }else if(document.getElementById("lastname").value == ""){
+//       alert("Please fill up the following fields");
+//     }else if(document.getElementById("accesstype").value == ""){
+//       alert("Please fill up the following fields");
+//     }else if(document.getElementById("password").value == ""){
+//       alert("Please fill up the following fields");
+//     }else if(document.getElementById("repassword").value == ""){
+//       alert("Please fill up the following fields");
+//     }else{
+//       $.ajax({
+//         type:"POST",
+//         url:"actions/users/add.php",
+//         data:{employee_code:employee_code, firstname:firstname, lastname:lastname, accesstype:accesstype, password:password, repassword:repassword},
+//         success:function(result){
+//           if(result == "Working"){
+//             alert("Successfully Created the Account");
+//
+//           }else{
+//             alert(result);
+//           }
+//         }
+//       });
+//     }
+//
+//   }
+// }
   }
   </script>
   <script>
