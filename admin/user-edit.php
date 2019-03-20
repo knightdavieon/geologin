@@ -1,12 +1,14 @@
 <?php
 include("../actions/accessdb.php");
-
-$sql = "SELECT * FROM accounts";
+$staffcode = $_REQUEST['staffcode'];
+$sql = "SELECT * FROM accounts WHERE user_staffcode = $staffcode";
 $sth = $conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
 $sth->execute();
 $result = $sth->fetch(PDO::FETCH_ASSOC);
-
-
+$numrows = $sth->rowCount();
+if($numrows == 0){
+  header('Location: user');
+}
 
 
 ?>
@@ -27,7 +29,7 @@ $result = $sth->fetch(PDO::FETCH_ASSOC);
   <link href="../resources/black-dashboard-html-v1.0.1/assets/demo/demo.css" rel="stylesheet" />
   <!-- data table -->
   <link rel="stylesheet" type="text/css" href="../resources/DataTables/datatables.css"/>
-
+  <script src="../resources/sweetalert.min.js"></script>
   <!-- end of datatable -->
 </head>
 
@@ -46,7 +48,7 @@ $result = $sth->fetch(PDO::FETCH_ASSOC);
         <div class="row">
           <div class="col-md-12">
             <div class="card">
-              <form id="form1" method="POST" action="actions/users/add.php">
+              <form id="editForm" method="POST" >
                 <div class="card-header">
                   <h5 class="title">Add User</h5>
                 </div>
@@ -90,21 +92,21 @@ $result = $sth->fetch(PDO::FETCH_ASSOC);
                     <div class="col-md-4 px-md-2">
                       <div class="form-group">
                         <label>Password</label>
-                        <input type="password" id="password" class="form-control" name="password" placeholder="Password" REQUIRED>
+                        <input type="password" id="password" class="form-control" name="password" placeholder="Password" >
                       </div>
                     </div>
 
                     <div class="col-md-4 px-md-2">
                       <div class="form-group">
                         <label>Re-Type Password</label>
-                        <input type="password" id="repassword" class="form-control" name="repassword" placeholder="Password" REQUIRED>
+                        <input type="password" id="repassword" class="form-control" name="repassword" placeholder="Password" >
                       </div>
                     </div>
                   </div>
 
                 </div>
-                <div class="card-footer">
-                  <button type="submit"  class="btn btn-fill btn-primary">Add</button>
+                <div class="card-footer" style="text-align: right;">
+                  <button type="submit"  class="btn btn-fill btn-primary">Update</button>
                 </div>
               </form>
             </div>
@@ -114,7 +116,7 @@ $result = $sth->fetch(PDO::FETCH_ASSOC);
       <?php include("footer.php"); ?>
     </div>
   </div>
-  <div class="fixed-plugin">
+  <!-- <div class="fixed-plugin">
     <div class="dropdown show-dropdown">
       <a href="#" data-toggle="dropdown">
         <i class="fa fa-cog fa-2x"> </i>
@@ -140,7 +142,7 @@ $result = $sth->fetch(PDO::FETCH_ASSOC);
 
       </ul>
     </div>
-  </div>
+  </div> -->
   <!--   Core JS Files   -->
   <script src="../resources/black-dashboard-html-v1.0.1/assets/js/core/jquery.min.js"></script>
   <script src="../resources/black-dashboard-html-v1.0.1/assets/js/core/popper.min.js"></script>
@@ -163,6 +165,67 @@ $result = $sth->fetch(PDO::FETCH_ASSOC);
   $(document).ready(function() {
     $('#example').DataTable();
   } );
+
+  $('#editForm').on('submit', function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    var result = " ";
+    var staff_code = $('#employee_code').val();
+    var staff_fname = $('#firstname').val();
+    var staff_lname = $('#lastname').val();
+    var staff_access = $('#accesstype').val();
+    var staff_password = $('#password').val();
+    var staff_repassword = $('#repassword').val();
+    $.ajax({
+      type      :  "POST",
+      url       :  "actions/users/edit.php",
+      data      :  {staff_code:staff_code, staff_fname:staff_fname, staff_lname:staff_lname, staff_access:staff_access, staff_password:staff_password, staff_repassword:staff_repassword},
+      success   :  function(result){
+
+        if(result == "updated"){
+          e.preventDefault();
+          swal({
+            title: "Success!",
+            text: "You Have Successfully Updated An Account",
+            icon: "success",
+            buttons:
+              'Confirm'
+            ,
+            closeOnClickOutside: false,
+            dangerMode: false,
+          }).then(function(isConfirm) {
+            if (isConfirm) {
+               window.location = "./user";
+
+
+            }
+          })
+        }else if(result == "priv not set"){
+          swal({
+                  title: "Empty Field",
+                  text: "Priviledge Is Not Set!",
+                  icon: "error",
+                  //timer: 3000
+              });
+
+        }else if(result == "password does not match"){
+          swal({
+                  title: "Password Doesnt Match!",
+                  text: "Aren't You Sick Of Being Wrong All The Time?",
+                  icon: "error",
+                  //timer: 3000
+              });
+
+        }
+
+      },
+      // error:function(Result){
+      //   alert(errorResult);
+      //
+      // }
+    });
+
+  });
 
     $(document).ready(function() {
       $().ready(function() {

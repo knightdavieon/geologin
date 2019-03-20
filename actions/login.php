@@ -38,15 +38,15 @@ if(isset($_REQUEST['staff_code'])){
           $staffname = $result['user_fname'] . " " . $result['user_lname'];
           $_SESSION['prev'] = $result['user_priviledge'];
 
-          // $sql = "INSERT INTO activity_log (user_staffcode, user_name, activity, date_time) VALUES (:stfcd, :stfcnm, :activity, :dt)";
-          // $sth = $conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
-          // $sth->execute(array(
-          //   ':stfcd' => $staffCode,
-          //   ':stfcnm' => $staffname,
-          //   ':activity' => "Logged in using this IP ",
-          //   ':dt' => $datetime
-          //
-          // ));
+          $sql = "INSERT INTO activity_log (user_staffcode, user_name, activity, date_time) VALUES (:stfcd, :stfcnm, :activity, :dt)";
+          $sth = $conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+          $sth->execute(array(
+            ':stfcd' => $staffCode,
+            ':stfcnm' => $staffname,
+            ':activity' => "Logged in using this IP ". $_SERVER['REMOTE_ADDR'],
+            ':dt' => $datetime
+
+          ));
 
 
           echo "login";

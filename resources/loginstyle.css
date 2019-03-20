@@ -5,7 +5,7 @@
 
 body {
   background: #007bff;
-  background: linear-gradient(to right, #1F1F1F, #515151);
+  background: linear-gradient(to right, #1E1E2D, #27293D);
 }
 
 .card-signin {
@@ -102,12 +102,12 @@ body {
 }
 .btn-sw{
   color: white;
-  background-color: #515151;
+  background-color: #1E1E2D;
 
 }
 .btn-sw:hover{
   color: white;
-  background-color: #1F1F1F;
+  background-color: #393D59;
 
 }
 .btn-google {

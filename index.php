@@ -31,7 +31,7 @@
   <link rel="stylesheet" href="resources/loginstyle.css" >
   <!-- <link rel="stylesheet" href="resources/loader.css" >
   <script src="resources/loader.js"></script> -->
-  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <script src="resources/sweetalert.min.js"></script>
   <style>
   .center-image{
     width: 45%;
@@ -60,7 +60,7 @@
             <img src="resources/images/png/swSilverworks.png" class="img-fluid center-image" alt="Responsive image" >
             <h5 class="card-title" style="margin-bottom:1px;">Employee Login Tracker</h5>
             <hr class="my-4 custom-my-4" >
-            <form class="form-signin">
+            <form class="form-signin" id="loginForm">
               <div class="form-label-group" style="text-align:center;">
                 <input type="text" id="inputStaffCode" style="text-align:center;" autocomplete="off" class="form-control" placeholder="Staff Code" required >
                 <label for="inputStaffCode">Staff Code</label>
@@ -79,7 +79,7 @@
               </div>
 
 
-              <button class="btn btn-lg btn-sw btn-block text-uppercase" id="login_btn">Sign in</button>
+              <button class="btn btn-lg btn-sw btn-block text-uppercase" id="login_btn" >Sign in</button>
               <hr class="my-4">
 
             </form>
@@ -95,8 +95,9 @@
 <script type="text/javascript">
 
 
-$('#login_btn').click(function(e){
-
+$('#loginForm').on('submit', function(e){
+  e.preventDefault();
+  e.stopPropagation();
   var result = " ";
   var staff_code = $('#inputStaffCode').val();
   var staff_user_type = $('#accesstype').val();
@@ -108,21 +109,53 @@ $('#login_btn').click(function(e){
     success   :  function(result){
 
       if(result == "login"){
-        // e.preventDefault();
-        // alert("Login Successful");
-        window.location = "admin/";
+        e.preventDefault();
+        swal({
+          title: "Success!",
+          text: "You have successfully loggedin",
+          icon: "success",
+          buttons:
+            'Confirm'
+          ,
+          closeOnClickOutside: false,
+          dangerMode: false,
+        }).then(function(isConfirm) {
+          if (isConfirm) {
+            window.location = "admin/";
+          }
+        })
       }else if(result == "Invalid Access"){
-        alert("Invalid Access");
-        window.location = "./";
+        swal({
+                title: "Invalid Access!",
+                text: "You Have No Power Here!!!",
+                icon: "error",
+                //timer: 3000
+            });
+
       }else if(result == "Account Inactive"){
-        alert("Account Inactive");
-        window.location = "./";
+        swal({
+                title: "Account Inactive!",
+                text: "Your Account Is With Snorelax Sleeping!",
+                icon: "error",
+                //timer: 3000
+            });
+
       }else if(result == "Wrong Staff Code or Password"){
-        alert("Wrong Staff Code or Password");
-        window.location = "./";
+        swal({
+                title: "Invalid Credentials!",
+                text: "Aren't You Sick Of Being Wrong All The Time?",
+                icon: "error",
+                //timer: 3000
+            });
+
       }else if(result == "Account Doesnt Exist"){
-        alert("Account Doesnt Exist");
-        window.location = "./";
+        swal({
+                title: "Account Does Not Exist!",
+                text: "Your Account Is Having An Existentiality Crisis",
+                icon: "error",
+                //timer: 3000
+            });
+
       }else{
         alert(result);
         window.location = "./";

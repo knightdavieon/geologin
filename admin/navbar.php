@@ -1,7 +1,4 @@
-<?php session_start();
-if($_SESSION['staffcode'] == NULL || $_SESSION['staffcode'] == " " || $_SESSION['StaffName'] == NULL || $_SESSION['StaffName'] == " " || $_SESSION['prev'] == NULL || $_SESSION['prev'] == " "){
-  echo "<script>window.location = 'admin/'';</script>";
-}
+<?php 
 // $_SESSION['staffcode'] = $staffCode;
 // $_SESSION['StaffName'] = $result['user_fname'] . " " . $result['user_lname'];
 // $_SESSION['prev'] = $result['user_priveledge'];

@@ -2,7 +2,7 @@
   if(isset($_POST['staffcode'])){
     include("../../../actions/accessdb.php");
     $staffcode = $_POST['staffcode'];
-    $deleteq = "DELETE FROM accounts where user_staffcode = :stfcd";
+    $deleteq = "UPDATE accounts SET user_status = 'Active' where user_staffcode = :stfcd";
     $gtc = $conn->prepare($deleteq, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
     $gtc->execute(array(
       ':stfcd' => $staffcode
@@ -12,7 +12,7 @@
     $sth->execute(array(
       ':stfcd' => $staffCode,
       ':stfcnm' => $staffname,
-      ':activity' => "Deleted user with the staff code '$staffCode' in using this IP ". $_SERVER['REMOTE_ADDR'],
+      ':activity' => "Activated user with the staff code '$staffCode' in using this IP ". $_SERVER['REMOTE_ADDR'],
       ':dt' => $datetime
 
     ));

@@ -93,7 +93,7 @@
       <?php include("footer.php"); ?>
     </div>
   </div>
-  <div class="fixed-plugin">
+  <!-- <div class="fixed-plugin">
     <div class="dropdown show-dropdown">
       <a href="#" data-toggle="dropdown">
         <i class="fa fa-cog fa-2x"> </i>
@@ -119,7 +119,7 @@
 
       </ul>
     </div>
-  </div>
+  </div> -->
   <!--   Core JS Files   -->
   <script src="../resources/black-dashboard-html-v1.0.1/assets/js/core/jquery.min.js"></script>
   <script src="../resources/black-dashboard-html-v1.0.1/assets/js/core/popper.min.js"></script>

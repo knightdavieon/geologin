@@ -16,7 +16,7 @@
   <link href="../resources/black-dashboard-html-v1.0.1/assets/demo/demo.css" rel="stylesheet" />
   <!-- data table -->
   <link rel="stylesheet" type="text/css" href="../resources/DataTables/datatables.css"/>
-
+  <script src="../resources/sweetalert.min.js"></script>
   <!-- end of datatable -->
 
   <style media="screen">
@@ -38,7 +38,7 @@
         <div class="row">
           <div class="col-md-4">
             <div class="card">
-              <form id="form1" method="POST" action="actions/users/add.php">
+              <form id="registerForm" >
                 <div class="card-header">
                   <h5 class="title">Add User</h5>
                 </div>
@@ -85,7 +85,7 @@
                     <div class="col-md-12 px-md-2">
                       <div class="form-group">
                         <label>Password</label>
-                        <input type="password" id="password" class="form-control" name="password" placeholder="Password" REQUIRED>
+                        <input type="password" id="password" class="form-control" autocomplete="off" placeholder="Last Name" name="password" REQUIRED>
                       </div>
                     </div>
                   </div>
@@ -93,14 +93,14 @@
                     <div class="col-md-12 px-md-2">
                       <div class="form-group">
                         <label>Re-Type Password</label>
-                        <input type="password" id="repassword" class="form-control" name="repassword" placeholder="Password" REQUIRED>
+                        <input type="password" id="repassword" class="form-control" autocomplete="off" placeholder="Last Name" name="repassword" REQUIRED>
                       </div>
                     </div>
                   </div>
 
                 </div>
                 <div class="card-footer">
-                  <button type="submit"  class="btn btn-fill btn-primary">Add</button>
+                  <button class="btn btn-fill btn-primary">Add</button>
                 </div>
               </form>
             </div>
@@ -111,7 +111,7 @@
                 <h5 class="title">User List</h5>
               </div>
               <div class="card-body">
-                <table id="example" class="table table-striped  dt-responsive nowrap" style="width:100%">
+                <table id="table1" class="table table-striped  dt-responsive nowrap" style="width:100%">
                   <thead>
                     <tr>
                       <th>Staff Code</th>
@@ -164,7 +164,7 @@
       <?php include("footer.php"); ?>
     </div>
   </div>
-  <div class="fixed-plugin">
+  <!-- <div class="fixed-plugin">
     <div class="dropdown show-dropdown">
       <a href="#" data-toggle="dropdown">
         <i class="fa fa-cog fa-2x"> </i>
@@ -190,7 +190,7 @@
 
       </ul>
     </div>
-  </div>
+  </div> -->
   <!--   Core JS Files   -->
   <script src="../resources/black-dashboard-html-v1.0.1/assets/js/core/jquery.min.js"></script>
   <script src="../resources/black-dashboard-html-v1.0.1/assets/js/core/popper.min.js"></script>
@@ -210,53 +210,77 @@
   <script type="text/javascript" src="../resources/DataTables/datatables.js"></script>
   <script type="text/javascript">
   $(document).ready(function() {
-    $('#example').DataTable();
+    $('#table1').DataTable();
   } );
-  $("form#form1").one("submit", submitFormFunction);
 
-  function submitFormFunction(event) {
-    event.preventDefault();
-    $("form#form1").submit();
+  $('#registerForm').on('submit', function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    var result = " ";
+    var staff_code = $('#employee_code').val();
+    var staff_fname = $('#firstname').val();
+    var staff_lname = $('#lastname').val();
+    var staff_access = $('#accesstype').val();
+    var staff_password = $('#password').val();
+    var staff_repassword = $('#repassword').val();
+    $.ajax({
+      type      :  "POST",
+      url       :  "actions/users/add.php",
+      data      :  {staff_code:staff_code, staff_fname:staff_fname, staff_lname:staff_lname, staff_access:staff_access, staff_password:staff_password, staff_repassword:staff_repassword},
+      success   :  function(result){
 
-//   function create_function(){
-//   var employee_code = $('#employee_code').val();
-//   var firstname = $('#firstname').val();
-//   var lastname = $('#lastname').val();
-//   var accesstype = $('#accesstype').val();
-//   var password = $('#password').val();
-//   var repassword = $('#repassword').val();
-//   if(message){
-//     if(document.getElementById("employee_code").value == ""){
-//       alert("Please fill up the following fields");
-//     }else if(document.getElementById("firstname").value == ""){
-//       alert("Please fill up the following fields");
-//     }else if(document.getElementById("lastname").value == ""){
-//       alert("Please fill up the following fields");
-//     }else if(document.getElementById("accesstype").value == ""){
-//       alert("Please fill up the following fields");
-//     }else if(document.getElementById("password").value == ""){
-//       alert("Please fill up the following fields");
-//     }else if(document.getElementById("repassword").value == ""){
-//       alert("Please fill up the following fields");
-//     }else{
-//       $.ajax({
-//         type:"POST",
-//         url:"actions/users/add.php",
-//         data:{employee_code:employee_code, firstname:firstname, lastname:lastname, accesstype:accesstype, password:password, repassword:repassword},
-//         success:function(result){
-//           if(result == "Working"){
-//             alert("Successfully Created the Account");
-//
-//           }else{
-//             alert(result);
-//           }
-//         }
-//       });
-//     }
-//
-//   }
-// }
-  }
+        if(result == "added"){
+          e.preventDefault();
+          swal({
+            title: "Success!",
+            text: "You Have Successfully Enrolled An Account",
+            icon: "success",
+            buttons:
+              'Confirm'
+            ,
+            closeOnClickOutside: false,
+            dangerMode: false,
+          }).then(function(isConfirm) {
+            if (isConfirm) {
+               window.location = "./user";
+
+
+            }
+          })
+        }else if(result == "staffcode exist"){
+          swal({
+                  title: "Duplicate Staff!",
+                  text: "Staff Code Already Exist",
+                  icon: "error",
+                  //timer: 3000
+              });
+
+        }else if(result == "priv not set"){
+          swal({
+                  title: "Empty Field",
+                  text: "Priviledge Is Not Set!",
+                  icon: "error",
+                  //timer: 3000
+              });
+
+        }else if(result == "password does not match"){
+          swal({
+                  title: "Password Doesnt Match!",
+                  text: "Aren't You Sick Of Being Wrong All The Time?",
+                  icon: "error",
+                  //timer: 3000
+              });
+
+        }
+
+      },
+      // error:function(Result){
+      //   alert(errorResult);
+      //
+      // }
+    });
+
+  });
   </script>
   <script>
   $(document).ready(function() {

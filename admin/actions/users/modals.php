@@ -1,7 +1,7 @@
 <!-- modal activate starts here -->
 
 <div class="modal fade" style="background-color:#000000c9;" id="modalactivate<?php echo $i;?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <form class="" action="index.html" method="post">
+  <form class="" action="actions/users/activate.php" method="post">
     <div class="modal-dialog"  role="document">
       <div class="modal-content" style="background-color:#27293D;">
         <div class="modal-header">
@@ -12,8 +12,9 @@
           <h3 style="color: white;">Are You Sure?</h3>
         </div>
         <div class="modal-footer">
+          <input type="hidden" name="staffcode" value="<?php echo $result['user_staffcode'];?>">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <button type="submit" class="btn btn-primary">Activate</button>
         </div>
       </div>
     </div>
@@ -25,7 +26,7 @@
 <!-- modal deactivate starts here -->
 
 <div class="modal fade" style="background-color:#000000c9;" id="modaldeactivate<?php echo $i;?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <form class="" action="index.html" method="post">
+  <form class="" action="actions/users/deactivate.php" method="post">
     <div class="modal-dialog"  role="document">
       <div class="modal-content" style="background-color:#27293D;">
         <div class="modal-header">
@@ -36,8 +37,9 @@
           <h3 style="color: white;">Are You Sure?</h3>
         </div>
         <div class="modal-footer">
+          <input type="hidden" name="staffcode" value="<?php echo $result['user_staffcode'];?>">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <button type="submit" class="btn btn-primary">Deactivate</button>
         </div>
       </div>
     </div>
@@ -49,7 +51,7 @@
 <!-- modal delete starts here -->
 
 <div class="modal fade" style="background-color:#000000c9;" id="modaldelete<?php echo $i;?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <form class="" action="index.html" method="post">
+  <form class="" action="actions/users/delete.php" method="post">
     <div class="modal-dialog"  role="document">
       <div class="modal-content" style="background-color:#27293D;">
         <div class="modal-header">
@@ -60,8 +62,9 @@
           <h3 style="color: white;">Are You Sure?</h3>
         </div>
         <div class="modal-footer">
+          <input type="hidden" name="staffcode" value="<?php echo $result['user_staffcode'];?>">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <button type="submit" class="btn btn-primary">Delete</button>
         </div>
       </div>
     </div>
