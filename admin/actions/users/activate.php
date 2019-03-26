@@ -1,6 +1,17 @@
 <?php
   if(isset($_POST['staffcode'])){
     include("../../../actions/accessdb.php");
+
+    session_start();
+    $staffCode = $_SESSION['staffcode'];
+    $staffname = $_SESSION['StaffName'];
+    $tz = 'Asia/Manila';
+    $timestamp = time();
+    $dt = new DateTime("now", new DateTimeZone($tz)); //first argument "must" be a string
+    $dt->setTimestamp($timestamp); //adjust the object to correct timestamp
+    $datetime = $dt->format('d/m/Y, H:i:s');
+
+
     $staffcode = $_POST['staffcode'];
     $deleteq = "UPDATE accounts SET user_status = 'Active' where user_staffcode = :stfcd";
     $gtc = $conn->prepare($deleteq, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
@@ -12,7 +23,7 @@
     $sth->execute(array(
       ':stfcd' => $staffCode,
       ':stfcnm' => $staffname,
-      ':activity' => "Activated user with the staff code '$staffCode' in using this IP ". $_SERVER['REMOTE_ADDR'],
+      ':activity' => "Activated user with the staff code '$staffcode' in using this IP ". $_SERVER['REMOTE_ADDR'],
       ':dt' => $datetime
 
     ));

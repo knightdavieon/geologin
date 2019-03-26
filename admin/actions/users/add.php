@@ -1,5 +1,13 @@
 <?php
 if(isset($_REQUEST['staff_code'])){
+  session_start();
+  $staffCode = $_SESSION['staffcode'];
+  $staffname = $_SESSION['StaffName'];
+  $tz = 'Asia/Manila';
+  $timestamp = time();
+  $dt = new DateTime("now", new DateTimeZone($tz)); //first argument "must" be a string
+  $dt->setTimestamp($timestamp); //adjust the object to correct timestamp
+  $datetime = $dt->format('d/m/Y, H:i:s');
 
   $staffcode = $_REQUEST['staff_code'];
   $firstname = $_REQUEST['staff_fname'];
@@ -38,7 +46,7 @@ if(isset($_REQUEST['staff_code'])){
         $sth->execute(array(
           ':stfcd' => $staffCode,
           ':stfcnm' => $staffname,
-          ':activity' => "Created new user with the staff code '$staffCode' in using this IP ". $_SERVER['REMOTE_ADDR'],
+          ':activity' => "Created new user with the staff code '$staffcode' in using this IP ". $_SERVER['REMOTE_ADDR'],
           ':dt' => $datetime
 
         ));

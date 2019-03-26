@@ -1,13 +1,13 @@
 <?php
 include("../actions/accessdb.php");
-$staffcode = $_REQUEST['staffcode'];
-$sql = "SELECT * FROM accounts WHERE user_staffcode = '$staffcode'";
+$staffcode = $_REQUEST['empstaffcode'];
+$sql = "SELECT * FROM employees WHERE emp_staffcode = '$staffcode'";
 $sth = $conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
 $sth->execute();
 $result = $sth->fetch(PDO::FETCH_ASSOC);
 $numrows = $sth->rowCount();
 if($numrows == 0){
-  header('Location: user');
+  header('Location: employees');
 }
 
 
@@ -45,69 +45,94 @@ if($numrows == 0){
 
       <!-- End Navbar -->
       <div class="content">
-        <a type="button" href="user" class="btn btn-fill btn-light" name="button">Back</a>
+        <a type="button" href="employees" class="btn btn-fill btn-light" name="button">Back</a>
         <div class="row">
           <div class="col-md-12">
             <div class="card">
-              <form id="editForm" method="POST" >
+              <form id="editEmpForm" >
                 <div class="card-header">
-                  <h5 class="title">Add User</h5>
+                  <h5 class="title">Edit Employee</h5>
                 </div>
                 <div class="card-body">
-
                   <div class="row">
                     <div class="col-md-4 px-md-2">
                       <div class="form-group">
                         <label>Staff Code</label>
-                        <input type="text" id="employee_code" class="form-control" READONLY value="<?php echo $result['user_staffcode'];?>" autocomplete="off" placeholder="Staff Code" name="employee_code" REQUIRED>
+                        <input type="text" id="employee_code" class="form-control" autocomplete="off" placeholder="Staff Code" name="employee_code" value="<?php echo $result['emp_staffcode'] ?>" REQUIRED READONLY>
                         <!-- onkeypress="return restrictCharacters(this, event, digitsOnly);" -->
                       </div>
                     </div>
-
                     <div class="col-md-4 px-md-2">
                       <div class="form-group">
                         <label>First Name</label>
-                        <input type="text" id="firstname" class="form-control" value="<?php echo $result['user_fname'];?>" autocomplete="off" placeholder="First Name" name="firstname" REQUIRED>
+                        <input type="text" id="firstname" class="form-control" autocomplete="off" placeholder="First Name" name="firstname" value="<?php echo $result['emp_fname'] ?>" REQUIRED>
                       </div>
                     </div>
-
                     <div class="col-md-4 px-md-2">
                       <div class="form-group">
                         <label>Last Name</label>
-                        <input type="text" id="lastname" class="form-control" value="<?php echo $result['user_lname'];?>" autocomplete="off" placeholder="Last Name" name="lastname" REQUIRED>
+                        <input type="text" id="lastname" class="form-control" autocomplete="off" placeholder="Last Name" name="lastname" value="<?php echo $result['emp_lname'] ?>" REQUIRED>
                       </div>
                     </div>
                   </div>
                   <div class="row">
                     <div class="col-md-4 px-md-2">
                       <div class="form-group">
-                        <label>Priviledge</label>
-                        <select id="accesstype" name="accesstype" class="form-control">
-                          <option value="" selected disabled></option>
-                          <option value="Admin" <?php if($result['user_priviledge'] == "Admin"){ echo "SELECTED";} ?> style="color:black;">Administrator</option>
-                          <option value="viewer" <?php if($result['user_priviledge'] == "viewer"){ echo "SELECTED";} ?> style="color:black;">Viewer</option>
-                        </select>
+                        <label>Address</label>
+                        <input type="text" id="address" class="form-control" autocomplete="off" placeholder="Address" name="address" value="<?php echo $result['emp_address'] ?>" REQUIRED>
+                        <!-- onkeypress="return restrictCharacters(this, event, digitsOnly);" -->
                       </div>
                     </div>
-
                     <div class="col-md-4 px-md-2">
+                      <div class="form-group">
+                        <label>Contact Number</label>
+                        <input type="text" id="contact_number" class="form-control" autocomplete="off" placeholder="contact_number" name="contact_number" value="<?php echo $result['emp_contact'] ?>" REQUIRED>
+                        <!-- onkeypress="return restrictCharacters(this, event, digitsOnly);" -->
+                      </div>
+                    </div>
+                    <div class="col-md-4 px-md-2">
+                      <div class="form-group">
+                        <label>Email</label>
+                        <input type="text" id="email" class="form-control" autocomplete="off" placeholder="Email" name="email" value="<?php echo $result['emp_email'] ?>" REQUIRED>
+                        <!-- onkeypress="return restrictCharacters(this, event, digitsOnly);" -->
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6 px-md-2">
+                      <div class="form-group">
+                        <label>Department</label>
+                        <input type="text" id="department" class="form-control" autocomplete="off" placeholder="Department" name="department" value="<?php echo $result['emp_department'] ?>" REQUIRED>
+                        <!-- onkeypress="return restrictCharacters(this, event, digitsOnly);" -->
+                      </div>
+                    </div>
+                    <div class="col-md-6 px-md-2">
+                      <div class="form-group">
+                        <label>Position</label>
+                        <input type="text" id="position" class="form-control" autocomplete="off" placeholder="Position" name="position" value="<?php echo $result['emp_position'] ?>" REQUIRED>
+                        <!-- onkeypress="return restrictCharacters(this, event, digitsOnly);" -->
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6 px-md-2">
                       <div class="form-group">
                         <label>Password</label>
-                        <input type="password" id="password" class="form-control" name="password" placeholder="Password" >
+                        <input type="password" id="password" class="form-control" autocomplete="off" placeholder="Last Name" name="password" REQUIRED>
                       </div>
                     </div>
 
-                    <div class="col-md-4 px-md-2">
+                    <div class="col-md-6 px-md-2">
                       <div class="form-group">
                         <label>Re-Type Password</label>
-                        <input type="password" id="repassword" class="form-control" name="repassword" placeholder="Password" >
+                        <input type="password" id="repassword" class="form-control" autocomplete="off" placeholder="Last Name" name="repassword" REQUIRED>
                       </div>
                     </div>
                   </div>
 
                 </div>
-                <div class="card-footer" style="text-align: right;">
-                  <button type="submit"  class="btn btn-fill btn-primary">Update</button>
+                <div class="card-footer" style="text-align:right;">
+                  <button class="btn btn-fill btn-primary">Add</button>
                 </div>
               </form>
             </div>
@@ -167,7 +192,7 @@ if($numrows == 0){
     $('#example').DataTable();
   } );
 
-  $('#editForm').on('submit', function(e){
+  $('#editEmpForm').on('submit', function(e){
     e.preventDefault();
     e.stopPropagation();
     var result = " ";

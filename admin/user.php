@@ -17,6 +17,7 @@
   <!-- data table -->
   <link rel="stylesheet" type="text/css" href="../resources/DataTables/datatables.css"/>
   <script src="../resources/sweetalert.min.js"></script>
+  <script src="../resources/swal.js"></script>
   <!-- end of datatable -->
 
   <style media="screen">
@@ -230,7 +231,6 @@
       success   :  function(result){
 
         if(result == "added"){
-          e.preventDefault();
           swal({
             title: "Success!",
             text: "You Have Successfully Enrolled An Account",

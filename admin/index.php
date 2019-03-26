@@ -64,7 +64,7 @@
                   </thead>
                   <tbody>
                     <?php
-                    $sql = "SELECT * FROM activity_log";
+                    $sql = "SELECT * FROM activity_log order by id DESC";
                     $sth = $conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
                     $sth->execute();
                     while($result = $sth->fetch(PDO::FETCH_ASSOC)){
@@ -139,7 +139,9 @@
   <script src="../resources/black-dashboard-html-v1.0.1/assets/demo/demo.js"></script>
   <script>
   $(document).ready(function() {
-    $('#example').DataTable();
+    $('#example').DataTable({
+      "order": [[ 0, "desc" ]]
+    });
   } );
 
   var clockID;
