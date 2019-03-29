@@ -16,8 +16,10 @@
   <link href="../resources/black-dashboard-html-v1.0.1/assets/demo/demo.css" rel="stylesheet" />
   <!-- data table -->
   <link rel="stylesheet" type="text/css" href="../resources/DataTables/datatables.css"/>
+  <link rel="stylesheet" type="text/css" href="../resources/swal.css"/>
   <script src="../resources/sweetalert.min.js"></script>
   <script src="../resources/swal.js"></script>
+
   <!-- end of datatable -->
 
   <style media="screen">

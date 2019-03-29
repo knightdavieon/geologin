@@ -29,6 +29,7 @@
   <script src="resources/jquery-slimscroll/jquery.slimscroll.js"></script>
 
   <link rel="stylesheet" href="resources/loginstyle.css" >
+  <link rel="stylesheet" href="resources/swal.css" >
   <!-- <link rel="stylesheet" href="resources/loader.css" >
   <script src="resources/loader.js"></script> -->
   <script src="resources/sweetalert.min.js"></script>

@@ -118,21 +118,21 @@ if($numrows == 0){
                     <div class="col-md-6 px-md-2">
                       <div class="form-group">
                         <label>Password</label>
-                        <input type="password" id="password" class="form-control" autocomplete="off" placeholder="Last Name" name="password" REQUIRED>
+                        <input type="password" id="password" class="form-control" autocomplete="off" placeholder="Last Name" name="password" >
                       </div>
                     </div>
 
                     <div class="col-md-6 px-md-2">
                       <div class="form-group">
                         <label>Re-Type Password</label>
-                        <input type="password" id="repassword" class="form-control" autocomplete="off" placeholder="Last Name" name="repassword" REQUIRED>
+                        <input type="password" id="repassword" class="form-control" autocomplete="off" placeholder="Last Name" name="repassword" >
                       </div>
                     </div>
                   </div>
 
                 </div>
                 <div class="card-footer" style="text-align:right;">
-                  <button class="btn btn-fill btn-primary">Add</button>
+                  <button class="btn btn-fill btn-primary">Edit</button>
                 </div>
               </form>
             </div>
@@ -196,22 +196,26 @@ if($numrows == 0){
     e.preventDefault();
     e.stopPropagation();
     var result = " ";
-    var staff_code = $('#employee_code').val();
-    var staff_fname = $('#firstname').val();
-    var staff_lname = $('#lastname').val();
-    var staff_access = $('#accesstype').val();
-    var staff_password = $('#password').val();
-    var staff_repassword = $('#repassword').val();
+    var emp_staff_code = $('#employee_code').val();
+    var emp_fname = $('#firstname').val();
+    var emp_lname = $('#lastname').val();
+    var emp_address = $('#address').val();
+    var emp_contact = $('#contact_number').val();
+    var emp_email = $('#email').val();
+    var emp_department = $('#department').val();
+    var emp_position = $('#position').val();
+    var emp_password = $('#password').val();
+    var emp_repassword = $('#repassword').val();
     $.ajax({
       type      :  "POST",
-      url       :  "actions/users/edit.php",
-      data      :  {staff_code:staff_code, staff_fname:staff_fname, staff_lname:staff_lname, staff_access:staff_access, staff_password:staff_password, staff_repassword:staff_repassword},
+      url       :  "actions/employees/edit.php",
+      data      :  {emp_staff_code:emp_staff_code, emp_fname:emp_fname, emp_lname:emp_lname, emp_address:emp_address, emp_contact:emp_contact, emp_email:emp_email, emp_department:emp_department, emp_position:emp_position, emp_password:emp_password, emp_repassword:emp_repassword},
       success   :  function(result){
 
         if(result == "updated"){
           swal({
             title: "Success!",
-            text: "You Have Successfully Updated An Account",
+            text: "You Have Successfully Updated An Employee",
             icon: "success",
             buttons:
               'Confirm'
@@ -220,19 +224,11 @@ if($numrows == 0){
             dangerMode: false,
           }).then(function(isConfirm) {
             if (isConfirm) {
-               window.location = "./user";
+               window.location = "./employees";
 
 
             }
           })
-        }else if(result == "priv not set"){
-          swal({
-                  title: "Empty Field",
-                  text: "Priviledge Is Not Set!",
-                  icon: "error",
-                  //timer: 3000
-              });
-
         }else if(result == "password does not match"){
           swal({
                   title: "Password Doesnt Match!",
