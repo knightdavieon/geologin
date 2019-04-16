@@ -43,6 +43,30 @@
 
             </div>
           </div>
+
+          <div class="col-md-4">
+            <div class="card">
+              <div class="card-header" style="text-align:center; ">
+                <span class="simple-text">Employee's</span>
+              </div>
+              <div  style="text-align:center; padding-top:2px;">
+                <h1 id="theTime"></h1>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card">
+              <div class="card-header" style="text-align:center; ">
+                <span class="simple-text">Active Geofence</span>
+              </div>
+              <div  style="text-align:center; padding-top:2px;">
+                <h1 id="theTime"></h1>
+              </div>
+
+            </div>
+          </div>
         </div>
 
         <div class="row">

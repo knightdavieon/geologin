@@ -18,6 +18,19 @@
         <p>Dashboard</p>
       </a>
     </li>
+    <li class="<?php //if ($_SERVER['PHP_SELF'] == 'geologin/admin/' || $_SERVER['PHP_SELF'] == 'geologin/admin/index'){ echo "Active"; }?>">
+      <a href="./">
+        <i class="tim-icons icon-chart-pie-36"></i>
+        <p>Employee Monitoring</p>
+      </a>
+    </li>
+    <hr style="background-color:#EEA7E7; width:85%;"/>
+    <li class="<?php //if ($_SERVER['PHP_SELF'] == 'geologin/admin/' || $_SERVER['PHP_SELF'] == 'geologin/admin/index'){ echo "Active"; }?>">
+      <a href="./geofence">
+        <i class="tim-icons icon-square-pin"></i>
+        <p>Geofences</p>
+      </a>
+    </li>
     <hr style="background-color:#EEA7E7; width:85%;"/>
     <li class="<?php //if ($_SERVER['PHP_SELF'] == './user'){ echo "Active"; }?>">
       <a href="./employees">

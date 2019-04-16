@@ -15,6 +15,8 @@
       $getempcode->store_result();
       return $getempcode->num_rows > 0;
 
+      
+
       // $rowcount = $gtc->rowCount();
 
       // if($rowcount == 0 ){
