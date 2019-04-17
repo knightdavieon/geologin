@@ -1,4 +1,7 @@
-<?php include("../actions/accessdb.php");?>
+<?php include("../actions/accessdb.php");
+// set radius to default 200 meters to occupy the whole mall
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
